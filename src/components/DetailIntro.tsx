@@ -28,7 +28,7 @@ margin-top: 10px;
 
 const IntroBox = styled.div<{ $closeProps: boolean }>`
   display: ${props => props.$closeProps ? "block" : "none"};
-  width: 100%;
+  width: 90%;
   height: ${props => props.$closeProps ? "" : "100%"};
   padding: 5%;
   position: absolute;
