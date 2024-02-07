@@ -52,7 +52,7 @@ const test = async() =>{
         <DetailIntro props={detailData} ></DetailIntro>
         <DetailSubInfo props={detailData}></DetailSubInfo>
         <DetailFacilityInfo props={detailData}></DetailFacilityInfo>
-        <KakaoMap props={detailData}></KakaoMap>
+        {/* <KakaoMap props={detailData}></KakaoMap> */}
       </C.Wrap>
     </C.Section>
   )
