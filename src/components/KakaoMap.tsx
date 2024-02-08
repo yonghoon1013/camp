@@ -25,6 +25,7 @@ const KakaoMap: React.FC<DataComponentProps> = ({ props }) => {
 
     useEffect(() => {
 
+
         let container = document.getElementById(`map`); // 지도를 담을 영역의 DOM 레퍼런스
         let options = {
             center: new window.kakao.maps.LatLng(props.mapY, props.mapX), // 지도 중심 좌표
@@ -50,7 +51,7 @@ const KakaoMap: React.FC<DataComponentProps> = ({ props }) => {
 
         infowindow.open(map, marker);
 
-    }, []);
+    }, [props, props.mapX, props.mapX]);
 
 
     return (
