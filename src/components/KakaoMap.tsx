@@ -24,36 +24,51 @@ const KakaoMap: React.FC<DataComponentProps> = ({ props }) => {
 
 
     useEffect(() => {
+        const loadKakaoMap = () => {
+            if (window.kakao && window.kakao.maps && props) {
+                const container = document.getElementById("map");
+                const options = {
+                    center: new window.kakao.maps.LatLng(props.mapY, props.mapX),
+                };
+                const map = new window.kakao.maps.Map(container, options);
 
+                if (props) {
+                    const markerPosition = new window.kakao.maps.LatLng(props.mapY, props.mapX);
+                    const marker = new window.kakao.maps.Marker({
+                        position: markerPosition,
+                    });
 
-        let container = document.getElementById(`map`); // 지도를 담을 영역의 DOM 레퍼런스
-        let options = {
-            center: new window.kakao.maps.LatLng(props.mapY, props.mapX), // 지도 중심 좌표
-            level: 3, // 지도의 레벨(확대, 축소 정도)
+                    marker.setMap(map);
+
+                    const iwContent = `<div style="">${props.facltNm}<br><a href="https://map.kakao.com/link/to/${props.facltNm},${props.mapY},${props.mapX}" style="color:blue" target="_blank">길찾기</a></div>`;
+                    const iwPosition = new window.kakao.maps.LatLng(props.mapY, props.mapX);
+
+                    const infowindow = new window.kakao.maps.InfoWindow({
+                        position: iwPosition,
+                        content: iwContent,
+                    });
+
+                    infowindow.open(map, marker);
+                }
+            }
         };
 
-        let map = new window.kakao.maps.Map(container, options); // 지도 생성 및 객체 리턴
+        if (!window.kakao) {
+            const script = document.createElement("script");
+            script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_API_KEY}&autoload=false`;
+            script.async = true;
+            document.head.appendChild(script);
 
-        const markerPosition = new window.kakao.maps.LatLng(props.mapY, props.mapX);
-        const marker = new window.kakao.maps.Marker({
-            position: markerPosition,
-            map: map,
-        });
-
-
-        const iwContent = `<div style="padding:5%;">${props.facltNm} <br><a href="https://map.kakao.com/link/map/${props.facltNm},` + props.mapY + ',' + props.mapX + `" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/${props.facltNm},` + props.mapY + ',' + props.mapX + '" style="color:blue" target="_blank">길찾기</a></div>';
-        const iwPosition = new window.kakao.maps.LatLng(props.mapY, props.mapX);
-
-        const infowindow = new window.kakao.maps.InfoWindow({
-            position: iwPosition,
-            content: iwContent,
-        });
-
-        infowindow.open(map, marker);
+            script.onload = () => {
+                window.kakao.maps.load(loadKakaoMap);
+            };
+        } else {
+            loadKakaoMap();
+        }
 
     }, [props, props.mapX, props.mapX]);
 
-
+    
     return (
         <KakaoMapBox>
             <Map id='map'></Map>

@@ -124,7 +124,7 @@ export default function Context({ children }: { children: React.ReactNode }) {
             switch (type) {
                 case "ALL":
                     res = await campBase.get(`/basedList?numOfRows=9999&_type=json`);
-
+                    
                     if (instanceData.doNm && (!instanceData.sigunguNm || instanceData.sigunguNm === "전체/시/군")) {
                         res = res.data.response.body.items.item.filter((item: CampDataInfo) => item.doNm === instanceData.doNm);
                     } else if (instanceData.doNm && instanceData.sigunguNm) {
@@ -132,7 +132,7 @@ export default function Context({ children }: { children: React.ReactNode }) {
                     } else {
                         res = res.data.response.body.items.item;
                     }
-                    break;
+                    break;  
 
                 case "LOCATION":
                     res = await campBase.get(`/locationBasedList?numOfRows=10&pageNo=${pageNo}&mapX=${instanceData.long}&mapY=${instanceData.lat}&radius=20000`);
