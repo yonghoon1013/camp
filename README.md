@@ -7,7 +7,7 @@
 
 ![camp](https://github.com/yonghoon1013/camp/assets/133857448/c88c4b86-01d1-4560-9404-845efa203df3)
 
-사이트 바로가기 : [[https://camp-lemon.vercel.app/](https://camp-gamma.vercel.app/)](https://camp-sable.vercel.app/)
+사이트 바로가기 : https://camp-sable.vercel.app/
 
 
 
