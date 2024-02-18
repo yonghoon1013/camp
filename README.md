@@ -5,9 +5,9 @@
 캠핑에 관심이 생겨 GO캠핑에서 제공하는 API를 발견하여 웹 페이지를 제작하였고,
 주로 젊은 20대보단 조금 더 나이가 있는 30대 이후를 주 타겟층으로 잡아 React를 이용하여 캠핑장 API를 활용해 보았습니다. 
 
-![camp](https://github.com/yonghoon1013/camp/assets/133857448/c3e03747-abcb-437d-a072-1f718504baa2)
+![camp](https://github.com/yonghoon1013/camp/assets/133857448/c88c4b86-01d1-4560-9404-845efa203df3)
 
-사이트 바로가기 : [https://camp-lemon.vercel.app/](https://camp-gamma.vercel.app/)
+사이트 바로가기 : [[https://camp-lemon.vercel.app/](https://camp-gamma.vercel.app/)](https://camp-sable.vercel.app/)
 
 
 
