@@ -34,6 +34,20 @@ export const MyContext = createContext({});
 
 export default function Context({ children }: { children: React.ReactNode }) {
 
+    let key: string = "";
+    let id: string = "";
+    let nick: string = "";
+    if (typeof window !== "undefined") {
+        const userData = sessionStorage.getItem("user");
+        if (userData) {
+            key = JSON.parse(userData).key;
+            id = JSON.parse(userData).id;
+            nick = JSON.parse(userData).nick;
+        }
+    }
+
+
+
     const swiperImg: string[] = [mainBg01, mainBg02, mainBg03, mainBg04];
 
     const facImg = {
@@ -124,7 +138,7 @@ export default function Context({ children }: { children: React.ReactNode }) {
             switch (type) {
                 case "ALL":
                     res = await campBase.get(`/basedList?numOfRows=9999&_type=json`);
-                    
+
                     if (instanceData.doNm && (!instanceData.sigunguNm || instanceData.sigunguNm === "전체/시/군")) {
                         res = res.data.response.body.items.item.filter((item: CampDataInfo) => item.doNm === instanceData.doNm);
                     } else if (instanceData.doNm && instanceData.sigunguNm) {
@@ -132,7 +146,7 @@ export default function Context({ children }: { children: React.ReactNode }) {
                     } else {
                         res = res.data.response.body.items.item;
                     }
-                    break;  
+                    break;
 
                 case "LOCATION":
                     res = await campBase.get(`/locationBasedList?numOfRows=10&pageNo=${pageNo}&mapX=${instanceData.long}&mapY=${instanceData.lat}&radius=20000`);
@@ -145,9 +159,12 @@ export default function Context({ children }: { children: React.ReactNode }) {
 
                     break;
                 case "IMGGET":
-                    
                     res = await campBase.get(`/imageList?numOfRows=10&pageNo=1&contentId=${instanceData}`);
                     res = res.data.response.body.items.item;
+                    break;
+                case "FAV":
+                    res = await campBase.get(`/basedList?numOfRows=9999&_type=json`);
+                    res = res.data.response.body.items.item.filter((item: CampDataInfo)=> instanceData.includes(item.contentId))
                     break;
             }
             dispatch({ type: 'SUCCESS', data: res });
@@ -156,7 +173,7 @@ export default function Context({ children }: { children: React.ReactNode }) {
         }
     }
 
-    
+
 
 
     // geolocation
@@ -195,7 +212,6 @@ export default function Context({ children }: { children: React.ReactNode }) {
 
 
     if (state.data) {
-
         const a = state.data.filter((item: CampDataInfo) => item.firstImageUrl)
         sessionStorage.setItem("data", JSON.stringify(a));
     } else {
@@ -207,10 +223,10 @@ export default function Context({ children }: { children: React.ReactNode }) {
     const sesstionCampData: string | null = sessionStorage.getItem("data")
     const sessionData: CampDataInfo[] = sesstionCampData ? JSON.parse(sesstionCampData) : [];
 
-    
+
 
     return (
-        <MyContext.Provider value={{ state, campApiGet, pageNo, pageNoDispatch, swiperImg, getGeolocation, geolocation, displayMode, setDisplayMod, sessionData, facImg, footerImg }}>
+        <MyContext.Provider value={{ state, campApiGet, pageNo, pageNoDispatch, swiperImg, getGeolocation, geolocation, displayMode, setDisplayMod, sessionData, facImg, footerImg, key, id, nick }}>
             {children}
         </MyContext.Provider>
     )

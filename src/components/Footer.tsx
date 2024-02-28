@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import vlot from '../assets/imgs/ico_volt.png';
 import { MyContext } from '../Context';
+import { Link } from 'react-router-dom';
 
 const FooterBox = styled.div`
     min-width: 340px;
@@ -22,13 +23,17 @@ const FooterUl = styled.ul`
 `
 
 const FooterLi = styled.li`
-    background-color: white;
-    width: 5%;
     aspect-ratio: 1;
+`
+
+const FooterLink = styled(Link)`
+    display: block;
+    width: 10%;
     margin: 5%;
     padding: 3%;
+    background-color: white;
     border-radius: 20px;
-    box-shadow: 0 2px 6px 0 rgb(207 207 207 / 25%);
+    box-shadow: rgba(207, 207, 207, 0.25) 0px 2px 6px 0px;
 `
 
 const FooterIcon = styled.img`
@@ -44,10 +49,10 @@ const Footer: React.FC = () => {
     return (
         <FooterBox>
             <FooterUl>
-                <FooterLi><FooterIcon src={footerImg.home}></FooterIcon></FooterLi>
-                <FooterLi><FooterIcon src={footerImg.fav}></FooterIcon></FooterLi>
-                <FooterLi><FooterIcon src={footerImg.mypage}></FooterIcon></FooterLi>
-                <FooterLi><FooterIcon src={footerImg.set}></FooterIcon></FooterLi>
+                <FooterLink to={'/'}><FooterLi><FooterIcon src={footerImg.home}></FooterIcon></FooterLi></FooterLink>
+                <FooterLink to={'/favorite'}><FooterLi><FooterIcon src={footerImg.fav}></FooterIcon></FooterLi></FooterLink>
+                <FooterLink to={'/mypage'}><FooterLi><FooterIcon src={footerImg.mypage}></FooterIcon></FooterLi></FooterLink>
+                <FooterLink to={'/'}><FooterLi><FooterIcon src={footerImg.set}></FooterIcon></FooterLi></FooterLink>
             </FooterUl>
         </FooterBox>
     )

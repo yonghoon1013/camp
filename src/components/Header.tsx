@@ -6,11 +6,13 @@ import searchIcon from '../assets/imgs/search-icon.png'
 import cityJson from "../json/city.json";
 import { MyContext } from '../Context'
 import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 
 const HeaderBox = styled.div`
 background-color: #2B5740;
 padding: 5%;
+position: relative;
 `
 
 const LogoText = styled(Link)`
@@ -137,51 +139,125 @@ const CloseBtn = styled.div`
     font-size:1.5rem;
 `
 
+const Test = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`
+
+
+const HamBox = styled.div`
+    position: relative;
+    width: 30px;
+    aspect-ratio: 1.5;
+    /* background-color: #a3a3db; */
+    cursor: pointer;
+    
+`
+
+const Ham = styled.div`
+    
+`
+
+const HamSpan = styled.span<{ $onProps: boolean }>`
+    position: absolute;
+    display: inline-block;
+    width: 100%;
+    border: 1px solid black;
+    transition: all 0.2s linear;
+    &:nth-of-type(1){
+        top: ${props => (props.$onProps ? "50%" : "0")};
+        transform : ${props => (props.$onProps ? "translateY(-50%) rotate(45deg)" : "rotate(0deg)")};
+    }
+    &:nth-of-type(2){
+        top:50%;
+        opacity: ${props => (props.$onProps ? "0" : "1")};
+    }
+    &:nth-last-of-type(1){
+        top: ${props => (props.$onProps ? "50%" : "100%")};
+        transform : ${props => (props.$onProps ? "translateY(-50%) rotate(-45deg)" : "rotate(0deg)")};
+    }
+`
+
+
+const InfoLink = styled(Link)`
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+`
+
+
 const Header: React.FC = () => {
 
-    const { campApiGet, state, displayMode, setDisplayMod } = useContext<any>(MyContext);
+    const { campApiGet, state, displayMode, setDisplayMod, nick, id, key } = useContext<any>(MyContext);
     const [cityValue, setCityValue] = useState<string | boolean>(false);
     const [citySubValue, setCitySubValue] = useState<string | boolean>(false);
     const [close, setClose] = useState<boolean>(false);
-    const [keywordValue,setKeywordValue] = useState<string>('');
+    const [keywordValue, setKeywordValue] = useState<string>('');
 
     const navigate = useNavigate();
 
-    const locationSubmit = async(e: any) =>{
+
+
+    const locationSubmit = async (e: any) => {
         e.preventDefault();
-        await campApiGet("ALL",{doNm: cityValue, sigunguNm: citySubValue});
+        await campApiGet("ALL", { doNm: cityValue, sigunguNm: citySubValue });
         navigate("/list");
         setDisplayMod(false);
     }
 
-    const keywordSubmit = async(e: any) =>{
+    const keywordSubmit = async (e: any) => {
         e.preventDefault();
         await campApiGet("KEYWORD", keywordValue);
         navigate("/list");
         setDisplayMod(false);
     }
 
+
+    const [on, setOn] = useState<boolean>(false);
+    const spanNum: number[] = [1, 2, 3];
+
+    const test = () => {
+        setOn(!on)
+    }
+
+
     return (
         <HeaderBox>
-            <LogoText to="/">캠핑장 여기 어떄?</LogoText>
+            <Test>
+                <LogoText to="/">캠핑장 여기 어떄?</LogoText>
+                {
+                    key ? <InfoLink to={"/mypage"}>{nick}님 환영합니다.</InfoLink> : <InfoLink to={"/login"}>로그인</InfoLink>
+                }
+
+                {/* <HamBox onClick={() => { test() }}>
+                    <Ham>
+                        {
+                            spanNum.map((index) => (
+                                <HamSpan $onProps={on} key={index}></HamSpan>
+                            ))
+                        }
+                    </Ham>
+                </HamBox> */}
+            </Test>
             <SearchBox>
-                <KeywordSearchForm onSubmit={(e)=>{keywordSubmit(e)}}>
-                    <KeywordInput type='text' placeholder='장소를 입력하세요.' onChange={(e)=>{setKeywordValue(e.target.value)}} ></KeywordInput>
+                <KeywordSearchForm onSubmit={(e) => { keywordSubmit(e) }}>
+                    <KeywordInput type='text' placeholder='장소를 입력하세요.' onChange={(e) => { setKeywordValue(e.target.value) }} ></KeywordInput>
                     <SearchBtn></SearchBtn>
                 </KeywordSearchForm>
                 <LocationBtn onClick={() => { setClose(true) }}></LocationBtn>
                 <LocationSearchBox $closeProps={close}>
                     <CloseBtn onClick={() => { setClose(false) }}>X</CloseBtn>
                     <LocationSearchTilte>지역별 검색</LocationSearchTilte>
-                    <LocationSearchForm onSubmit={(e) => {locationSubmit(e)}}>
-                        <LocationSelect onChange={(e) => { 
-                            if(e.target.value === "전체/도"){
+                    <LocationSearchForm onSubmit={(e) => { locationSubmit(e) }}>
+                        <LocationSelect onChange={(e) => {
+                            if (e.target.value === "전체/도") {
                                 setCityValue(false);
-                            } else{
-                                setCityValue(e.target.value); 
+                            } else {
+                                setCityValue(e.target.value);
                             }
                             setCitySubValue(false);
-                            }}>
+                        }}>
                             <option>전체/도</option>
                             {
                                 cityJson.map((item, index) => (

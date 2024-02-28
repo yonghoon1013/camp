@@ -21,6 +21,8 @@ const Home: React.FC = () => {
         getGeolocation();   
     },[])
 
+    
+
     if (state.loading) return (<div>로딩중....</div>)
     return (
         <C.Section>
