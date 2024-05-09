@@ -23,6 +23,8 @@ const Home: React.FC = () => {
 
     
 
+    
+
     if (state.loading) return (<div>로딩중....</div>)
     return (
         <C.Section>

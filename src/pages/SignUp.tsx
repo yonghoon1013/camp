@@ -75,7 +75,7 @@ const SignUp: React.FC = () => {
 
 
     try{
-      const res = await axios.post(`${process.env.REACT_APP_CLOUDTYPE}sign`,objData);
+      const res = await axios.post(`https://port-0-campserver-jvpb2alnb8mvcd.sel5.cloudtype.app/sign`,objData);
       sessionStorage.setItem("user", JSON.stringify( {key: `${res.data.key}`, id: `${res.data.id}`, nick:`${res.data.nick}` }));
       navigate('/')
     } catch(err){
